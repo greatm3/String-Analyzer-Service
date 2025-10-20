@@ -1,31 +1,17 @@
-{ 
-  "compilerOptions": { 
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "es2015",
     "rootDir": "src",
     "outDir": "dist",
-    "module": "nodenext",
-    "target": "es2020",  
-    "types": ["node", "express", "dotenv"], 
-
-    "moduleResolution": "nodenext",
+    "moduleResolution": "node",
     "esModuleInterop": true,
-    "allowImportingTsExtensions": false,
-
-    // Other Outputs
-    "sourceMap": true,
-    "declaration": true,
-    "declarationMap": true,
-
-    // Stricter Typechecking Options
-    "noUncheckedIndexedAccess": true,
-    "exactOptionalPropertyTypes": true,
-
-    // Recommended Options
     "strict": true,
-    "jsx": "react-jsx",
-    "verbatimModuleSyntax": true,
-    "isolatedModules": true,
-    "noUncheckedSideEffectImports": true,
-    "moduleDetection": "force",
     "skipLibCheck": true,
-  }
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    // "sourceMap": true
+  },
+  "include": ["src"],
+  "exclude": ["node_modules"]
 }
