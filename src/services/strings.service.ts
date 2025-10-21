@@ -1,5 +1,3 @@
-import { getStringProps } from '../utils/getStringProps.js';
-
 import { StringProperties } from '../types/strings.types.js';
 
 const stringDB = new Map<string, StringProperties>();

@@ -1,8 +1,10 @@
-import express from "express"
-import { getAllStrings } from "../controllers/strings.controller.js";
+import { Router } from "express"
+import { getAllStrings, createString, getString } from "../controllers/strings.controller.js";
 
-const stringsRouter = express.Router();
+const stringsRouter = Router();
 
-stringsRouter.get('/', getAllStrings)
+stringsRouter.get('/:string_value', getString)
+stringsRouter.get('/', getAllStrings);
+stringsRouter.post('/', createString)
 
 export default stringsRouter;
