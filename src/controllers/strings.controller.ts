@@ -20,7 +20,7 @@ export function getAllStrings(req: Request, res: Response) {
         min_length: Number(req.query.min_length) ? Number(req.query.min_length) : undefined,
         max_length: Number(req.query.max_length) ? Number(req.query.max_length) : undefined,
         word_count: Number(req.query.word_count) ? Number(req.query.word_count) : undefined,
-        contains_character: String(req.query.contains_character) ? String(req.query.contains_character) : undefined
+        contains_character: req.query.contains_character ? String(req.query.contains_character) : undefined
     }
     
     const response = filterStrings(filters)
