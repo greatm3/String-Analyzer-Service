@@ -22,8 +22,12 @@ export function getAllStrings(req: Request, res: Response) {
         word_count: Number(req.query.word_count) ? Number(req.query.word_count) : undefined,
         contains_character: req.query.contains_character ? String(req.query.contains_character) : undefined
     }
-    
-    const response = filterStrings(filters)
+    const filteredStrings = filterStrings(filters)
+    const response = {
+        'data': filteredStrings,
+        'count': filteredStrings.length,
+        filters_applied: filters
+    }
 
     res.status(200).json(response);
 }
@@ -57,5 +61,6 @@ export function deleteString(req: Request, res: Response) {
         return res.status(404).json({ error: 'resource not found' });
     } 
 
+    StringService.delete(stringValue)
     res.status(204).send();
 }
