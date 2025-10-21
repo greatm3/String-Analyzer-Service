@@ -12,10 +12,19 @@ function isPalindrome(input: string): boolean {
 }
 
 function countUniqueCharacters(input: string): number {
-    return new Set(input.toLowerCase().split('')).size
+    return new Set(input.split('')).size
 }
 
-function character_frequency_map(i)
+function characterFrequencyMap(input: string): Record<string, number> {
+    const characters: Map<string, number> = new Map();
+
+    input.split('').forEach((string) => {
+        characters.set(string, (characters.get(string) || 0) + 1)
+    })
+
+    return Object.fromEntries(characters)
+
+}
 
 
 export function getStringProps(string: string): StringProperties {
@@ -30,7 +39,7 @@ export function getStringProps(string: string): StringProperties {
         is_palindrome: isStringPalindrome,
         unique_characters: countUniqueCharacters(string),
         word_count: wordCount,
-        character_frequency_map
+        character_frequency_map: characterFrequencyMap(string),
         sha256_hash: hash
     }
 
