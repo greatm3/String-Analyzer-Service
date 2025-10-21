@@ -12,11 +12,11 @@ function isPalindrome(input: string): boolean {
 }
 
 function countUniqueCharacters(input: string): number {
-    const chars: Record<string, number> = {}
-    input.split('').forEach((string, index) => {
-        
-    })
+    return new Set(input.toLowerCase().split('')).size
 }
+
+function character_frequency_map(i)
+
 
 export function getStringProps(string: string): StringProperties {
     const hash = generateSHA256(string);
@@ -28,6 +28,9 @@ export function getStringProps(string: string): StringProperties {
     const props: Properties = {
         length: length,
         is_palindrome: isStringPalindrome,
+        unique_characters: countUniqueCharacters(string),
+        word_count: wordCount,
+        character_frequency_map
         sha256_hash: hash
     }
 
