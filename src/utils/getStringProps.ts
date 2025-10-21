@@ -50,3 +50,6 @@ export function getStringProps(string: string): StringProperties {
         created_at: new Date().toISOString()
     }
 }
+
+console.log(getStringProps("hello there"))
+console.log(getStringProps("hello olleH"))
