@@ -73,25 +73,76 @@ export function deleteString(req: Request, res: Response) {
 }
 
 export function getByNl(req: Request, res: Response) {
-    const query = req.query.query;
+    let query = req.query.query;
 
-    if (!query) {
+    if (!query || typeof query !== 'string') {
         return res.status(400).json({ error: 'unable to parse query' });
     }
 
     const filters: FilterParams = {
-        is_palindrome: req.query.is_palindrome === 'true' ? true : undefined,
-        min_length: Number(req.query.min_length)
-            ? Number(req.query.min_length)
-            : undefined,
-        max_length: Number(req.query.max_length)
-            ? Number(req.query.max_length)
-            : undefined,
-        word_count: Number(req.query.word_count)
-            ? Number(req.query.word_count)
-            : undefined,
-        contains_character: req.query.contains_character
-            ? String(req.query.contains_character)
-            : undefined,
+        is_palindrome: undefined,
+        min_length: undefined,
+        max_length: undefined,
+        word_count: undefined,
+        contains_character: undefined,
     };
+
+    const uniqueFilters = new Map<string, number>();
+
+    query = query.split(' ');
+
+    query.forEach((value) => {
+        switch (value) {
+            case 'palindromic':
+                if (uniqueFilters.has(value)) {
+                    return res
+                        .status(422)
+                        .json({ error: 'conflicting filters' });
+                }
+                filters.is_palindrome = true;
+                uniqueFilters.set(value, 1);
+                break;
+            case 'single word':
+                if (uniqueFilters.has(value)) {
+                    return res
+                        .status(422)
+                        .json({ error: 'conflicting filters' });
+                }
+                filters.word_count = 1;
+                uniqueFilters.set(value, 1);
+                break;
+            case 'containing the letter z':
+                if (uniqueFilters.has(value)) {
+                    return res
+                        .status(422)
+                        .json({ error: 'conflicting filters' });
+                }
+                filters.contains_character = 'z';
+                uniqueFilters.set(value, 1);
+                break;
+            case 'first vowel':
+                if (uniqueFilters.has(value)) {
+                    return res
+                        .status(422)
+                        .json({ error: 'conflicting filters' });
+                }
+                filters.contains_character = 'a';
+                uniqueFilters.set(value, 1);
+                break;
+            case 'longer than 10 characters':
+                if (uniqueFilters.has(value)) {
+                    return res
+                        .status(422)
+                        .json({ error: 'conflicting filters' });
+                }
+                filters.min_length = 11;
+                uniqueFilters.set(value, 1);
+                break;
+            default:
+                break;
+        }
+    });
+
+    console.log(filters);
+    console.log(query);
 }
