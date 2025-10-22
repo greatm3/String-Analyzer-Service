@@ -86,7 +86,6 @@ export function getByNl(req: Request, res: Response) {
         word_count: undefined,
         contains_character: undefined,
     };
-    
 
     if (query.includes('palindromic')) {
         filters.is_palindrome = true;
@@ -108,5 +107,15 @@ export function getByNl(req: Request, res: Response) {
         filters.min_length = 10;
     }
 
-    const response = 
+    const filteredStrings = filterStrings(filters);
+    const response = {
+        data: filteredStrings,
+        count: filteredStrings.length,
+        interpreted_query: {
+            original: query,
+            parsed_filters: filters,
+        },
+    };
+
+    res.status(200).json(response);
 }
