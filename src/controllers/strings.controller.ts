@@ -86,63 +86,27 @@ export function getByNl(req: Request, res: Response) {
         word_count: undefined,
         contains_character: undefined,
     };
+    
 
-    const uniqueFilters = new Map<string, number>();
+    if (query.includes('palindromic')) {
+        filters.is_palindrome = true;
+    }
 
-    query = query.split(' ');
+    if (query.includes('single word')) {
+        filters.word_count = 1;
+    }
 
-    query.forEach((value) => {
-        switch (value) {
-            case 'palindromic':
-                if (uniqueFilters.has(value)) {
-                    return res
-                        .status(422)
-                        .json({ error: 'conflicting filters' });
-                }
-                filters.is_palindrome = true;
-                uniqueFilters.set(value, 1);
-                break;
-            case 'single word':
-                if (uniqueFilters.has(value)) {
-                    return res
-                        .status(422)
-                        .json({ error: 'conflicting filters' });
-                }
-                filters.word_count = 1;
-                uniqueFilters.set(value, 1);
-                break;
-            case 'containing the letter z':
-                if (uniqueFilters.has(value)) {
-                    return res
-                        .status(422)
-                        .json({ error: 'conflicting filters' });
-                }
-                filters.contains_character = 'z';
-                uniqueFilters.set(value, 1);
-                break;
-            case 'first vowel':
-                if (uniqueFilters.has(value)) {
-                    return res
-                        .status(422)
-                        .json({ error: 'conflicting filters' });
-                }
-                filters.contains_character = 'a';
-                uniqueFilters.set(value, 1);
-                break;
-            case 'longer than 10 characters':
-                if (uniqueFilters.has(value)) {
-                    return res
-                        .status(422)
-                        .json({ error: 'conflicting filters' });
-                }
-                filters.min_length = 11;
-                uniqueFilters.set(value, 1);
-                break;
-            default:
-                break;
-        }
-    });
+    if (query.includes('containing the letter z')) {
+        filters.contains_character = 'z';
+    }
 
-    console.log(filters);
-    console.log(query);
+    if (query.includes('first vowel')) {
+        filters.contains_character = 'a';
+    }
+
+    if (query.includes('longer than 10 characters')) {
+        filters.min_length = 10;
+    }
+
+    const response = 
 }
