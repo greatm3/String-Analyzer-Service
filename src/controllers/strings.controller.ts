@@ -14,20 +14,27 @@ export function getString(req: Request, res: Response) {
 }
 
 export function getAllStrings(req: Request, res: Response) {
-
     const filters: FilterParams = {
         is_palindrome: req.query.is_palindrome === 'true' ? true : undefined,
-        min_length: Number(req.query.min_length) ? Number(req.query.min_length) : undefined,
-        max_length: Number(req.query.max_length) ? Number(req.query.max_length) : undefined,
-        word_count: Number(req.query.word_count) ? Number(req.query.word_count) : undefined,
-        contains_character: req.query.contains_character ? String(req.query.contains_character) : undefined
-    }
-    const filteredStrings = filterStrings(filters)
+        min_length: Number(req.query.min_length)
+            ? Number(req.query.min_length)
+            : undefined,
+        max_length: Number(req.query.max_length)
+            ? Number(req.query.max_length)
+            : undefined,
+        word_count: Number(req.query.word_count)
+            ? Number(req.query.word_count)
+            : undefined,
+        contains_character: req.query.contains_character
+            ? String(req.query.contains_character)
+            : undefined,
+    };
+    const filteredStrings = filterStrings(filters);
     const response = {
-        'data': filteredStrings,
-        'count': filteredStrings.length,
-        filters_applied: filters
-    }
+        data: filteredStrings,
+        count: filteredStrings.length,
+        filters_applied: filters,
+    };
 
     res.status(200).json(response);
 }
@@ -59,8 +66,32 @@ export function deleteString(req: Request, res: Response) {
 
     if (!stringValue || !StringService.findByValue(stringValue)) {
         return res.status(404).json({ error: 'resource not found' });
-    } 
+    }
 
-    StringService.delete(stringValue)
+    StringService.delete(stringValue);
     res.status(204).send();
+}
+
+export function getByNl(req: Request, res: Response) {
+    const query = req.query.query;
+
+    if (!query) {
+        return res.status(400).json({ error: 'unable to parse query' });
+    }
+
+    const filters: FilterParams = {
+        is_palindrome: req.query.is_palindrome === 'true' ? true : undefined,
+        min_length: Number(req.query.min_length)
+            ? Number(req.query.min_length)
+            : undefined,
+        max_length: Number(req.query.max_length)
+            ? Number(req.query.max_length)
+            : undefined,
+        word_count: Number(req.query.word_count)
+            ? Number(req.query.word_count)
+            : undefined,
+        contains_character: req.query.contains_character
+            ? String(req.query.contains_character)
+            : undefined,
+    };
 }
